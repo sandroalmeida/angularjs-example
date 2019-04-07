@@ -46,4 +46,15 @@ public class UserController {
         UserDTO user = userJpaRepository.findById(id).get();
         return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
     }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") final Long id, @RequestBody UserDTO user) {
+        logger.debug("updateUser called");
+        UserDTO currentUser = userJpaRepository.findById(id).get();
+        currentUser.setName(user.getName());
+        currentUser.setAddress(user.getAddress());
+        currentUser.setEmail(user.getEmail());
+        currentUser = userJpaRepository.save(currentUser);
+        return new ResponseEntity<UserDTO>(currentUser, HttpStatus.OK);
+    }
 }
