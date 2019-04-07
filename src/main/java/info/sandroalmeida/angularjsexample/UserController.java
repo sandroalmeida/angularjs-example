@@ -39,4 +39,11 @@ public class UserController {
         userJpaRepository.save(user);
         return new ResponseEntity<UserDTO>(user, HttpStatus.CREATED);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") final Long id){
+        logger.debug("findbyId called");
+        UserDTO user = userJpaRepository.findById(id).get();
+        return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
+    }
 }
