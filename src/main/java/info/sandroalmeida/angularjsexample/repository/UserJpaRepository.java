@@ -9,5 +9,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface UserJpaRepository extends CrudRepository<UserDTO, Long> {
 
     UserDTO findByName(String name);
-    
+
 }
