@@ -57,4 +57,11 @@ public class UserController {
         currentUser = userJpaRepository.save(currentUser);
         return new ResponseEntity<UserDTO>(currentUser, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<UserDTO> deleteUser(@PathVariable("id") final Long id) {
+        logger.debug("deleteUser called");
+        userJpaRepository.deleteById(id);
+        return new ResponseEntity<UserDTO>(HttpStatus.NO_CONTENT);
+    }
 }
