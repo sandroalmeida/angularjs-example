@@ -1,4 +1,4 @@
-package info.sandroalmeida.angularjsexample;
+package info.sandroalmeida.angularjsexample.controller;
 
 import info.sandroalmeida.angularjsexample.dto.UserDTO;
 import info.sandroalmeida.angularjsexample.error.CustomErrortype;
@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> createUser(@RequestBody final UserDTO user){
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody final UserDTO user){
         logger.debug("createUser called");
         if(userJpaRepository.findByName(user.getName()) != null){
             return new ResponseEntity<>(
