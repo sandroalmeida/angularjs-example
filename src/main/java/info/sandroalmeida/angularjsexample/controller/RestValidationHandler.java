@@ -3,6 +3,8 @@ package info.sandroalmeida.angularjsexample.controller;
 import info.sandroalmeida.angularjsexample.error.FieldValidationError;
 import info.sandroalmeida.angularjsexample.error.FieldValidationErrorDetails;
 import info.sandroalmeida.angularjsexample.error.MessageType;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by sandro on 07/04/19
@@ -23,6 +26,12 @@ import java.util.List;
 
 @ControllerAdvice
 public class RestValidationHandler {
+
+    private MessageSource messageSource;
+
+    public RestValidationHandler(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -55,9 +64,11 @@ public class RestValidationHandler {
         FieldValidationError fieldValidationError = new FieldValidationError();
 
         if(error != null){
+            Locale currentLocale = LocaleContextHolder.getLocale();
+            String msg = messageSource.getMessage(error.getDefaultMessage(), null, currentLocale);
             fieldValidationError.setField(error.getField());
             fieldValidationError.setType(MessageType.ERROR);
-            fieldValidationError.setMessage(error.getDefaultMessage());
+            fieldValidationError.setMessage(msg);
         }
         return fieldValidationError;
     }
