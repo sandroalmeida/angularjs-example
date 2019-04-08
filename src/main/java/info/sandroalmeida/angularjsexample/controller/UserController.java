@@ -31,7 +31,7 @@ public class UserController {
 
     @GetMapping("/")
     public ResponseEntity<List<UserDTO>> listAllUsers(){
-        logger.debug("listAllusers called");
+        logger.debug("listAllUsers called");
         List<UserDTO> users = (List) userJpaRepository.findAll();
         if(users.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
