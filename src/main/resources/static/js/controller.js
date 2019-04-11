@@ -51,13 +51,13 @@ app.controller('userDetailsController', function($scope, $http, $location, $rout
 
     $scope.submitUserForm = function () {
         $http({
-            method : 'POST',
-            url : 'http://localhost:8080/api/user/',
+            method : 'PUT',
+            url : 'http://localhost:8080/api/user/' + $scope.userId,
             data : $scope.user,
         }).then(
             function (response) {
                 $location.path("/list-all-users");
-                $rout.reload();
+                $route.reload();
             },
             function (errResponse) {
                 $scope.errorMessage = "Error while updating User - Error Message: '"
